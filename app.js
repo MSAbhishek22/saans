@@ -212,39 +212,52 @@
     nowCard.hidden = false;
     nowCard.style.borderTopColor = band ? band.color : "";
 
-    /* Rest-of-today hours */
+    /* Rest-of-today hours (for the timeline) */
     var rest = [];
     for (var i = idx; i < times.length && times[i].slice(0, 10) === today; i++) {
       rest.push({ time: times[i], aqi: aqi[i] });
     }
 
+    /* Planner hours: from now until tomorrow midday. Late at night there
+     * is nothing left to plan today, so the planner looks ahead to
+     * tomorrow morning instead of showing an empty answer. */
+    var planHours = [];
+    for (var j = idx; j < times.length; j++) {
+      var pd = times[j].slice(0, 10), ph = hourOf(times[j]);
+      if (pd !== today && ph > 12) break;
+      planHours.push({ time: times[j], aqi: aqi[j] });
+    }
+
     /* Planner */
     var limit = PROFILES[state.profile].limit;
-    var res = bestWindows(rest, limit);
+    var res = bestWindows(planHours, limit);
     var winBox = $("windows");
     winBox.innerHTML = "";
     $("plannerSub").textContent = "For a " + PROFILES[state.profile].label.toLowerCase() +
-      " profile — outdoor exercise is fine at AQI " + limit + " or under.";
+      " profile — outdoor exercise is fine at AQI " + limit + " or under." +
+      " Late at night, windows run into tomorrow morning.";
     if (res.windows.length) {
       res.windows.forEach(function (w) {
         var b = bandFor(w.mean);
+        var dayTag = w.from.time.slice(0, 10) !== today ? "Tomorrow · " : "";
         var div = document.createElement("div");
         div.className = "window";
         div.innerHTML =
           '<div class="w-time">' + fmtHour(hourOf(w.from.time)) + " – " + fmtHour(hourOf(w.to.time) + 1) + '</div>' +
           '<div class="w-aqi" style="background:' + b.color + '"><small>US AQI</small>' + w.mean + "</div>" +
-          '<div class="w-body"><p class="w-activity">' + activityFor(hourOf(w.from.time)) + " · " + b.name + "</p>" +
+          '<div class="w-body"><p class="w-activity">' + dayTag + activityFor(hourOf(w.from.time)) + " · " + b.name + "</p>" +
           '<p class="w-advice">' + windowAdvice(w.mean, limit, state.profile) + "</p></div>";
         winBox.appendChild(div);
       });
     } else if (res.leastBad) {
       var lb = res.leastBad, lbb = bandFor(lb.mean);
+      var lbDayTag = lb.from.time.slice(0, 10) !== today ? "Tomorrow · " : "";
       var div2 = document.createElement("div");
       div2.className = "window";
       div2.innerHTML =
         '<div class="w-time">' + fmtHour(hourOf(lb.from.time)) + " – " + fmtHour(hourOf(lb.to.time) + 1) + '</div>' +
         '<div class="w-aqi" style="background:' + lbb.color + '"><small>US AQI</small>' + lb.mean + "</div>" +
-        '<div class="w-body"><p class="w-activity">Least bad window · ' + lbb.name + "</p>" +
+        '<div class="w-body"><p class="w-activity">' + lbDayTag + "Least bad window · " + lbb.name + "</p>" +
         '<p class="w-advice">No window today is under the safe line for this profile. ' +
         "If you must go out, this is the best of a bad day — keep it short and wear a mask.</p></div>";
       winBox.appendChild(div2);
