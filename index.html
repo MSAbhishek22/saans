@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saans — the best hours to step out today</title>
+<meta name="description" content="Saans uses live air-quality data to find the cleanest hours to go out today — for your run, your kids, or an elderly parent.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <p class="eyebrow">Live air quality · India</p>
+    <h1>Saans</h1>
+    <p class="tagline">Don&rsquo;t just check the AQI. Find the best hours to step out.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card glass" aria-label="Choose a city">
+    <h2>Where are you?</h2>
+    <div class="chips" id="cityChips" role="group" aria-label="Popular cities"></div>
+    <div class="search-row">
+      <label for="citySearch">Or search any place</label>
+      <input id="citySearch" type="search" placeholder="Type a city or town&hellip;" autocomplete="off">
+      <button id="searchBtn" type="button">Search</button>
+    </div>
+    <ul class="search-results" id="searchResults" aria-live="polite"></ul>
+    <p class="hint">Numbers come live from the Open-Meteo Air Quality API (Copernicus CAMS data). Nothing here is made up.</p>
+  </section>
+
+  <section class="card glass" aria-label="Who is going out">
+    <h2>Who is going out?</h2>
+    <p class="sub">The advice gets stricter for the people the air hurts most.</p>
+    <div class="profiles" id="profileBtns" role="group" aria-label="Profile">
+      <button type="button" data-profile="general" class="profile-btn active" aria-pressed="true">General</button>
+      <button type="button" data-profile="child" class="profile-btn" aria-pressed="false">Child</button>
+      <button type="button" data-profile="elderly" class="profile-btn" aria-pressed="false">Elderly</button>
+      <button type="button" data-profile="asthma" class="profile-btn" aria-pressed="false">Asthma / heart condition</button>
+    </div>
+  </section>
+
+  <div id="status" aria-live="polite"></div>
+
+  <section class="card now-card" id="nowCard" hidden aria-label="Air quality right now">
+    <div class="now-top">
+      <div>
+        <h2 id="nowCity">Delhi</h2>
+        <p class="now-time" id="nowTime"></p>
+      </div>
+      <div class="aqi-block">
+        <span class="aqi-num" id="aqiNum">&ndash;</span>
+        <span class="aqi-label" id="aqiLabel">US AQI</span>
+      </div>
+    </div>
+    <p class="band" id="aqiBand"></p>
+    <p class="verdict" id="verdict"></p>
+    <dl class="pollutants">
+      <div><dt>PM2.5</dt><dd id="pm25">&ndash;</dd></div>
+      <div><dt>PM10</dt><dd id="pm10">&ndash;</dd></div>
+      <div><dt>WHO guideline</dt><dd id="whoLine">&ndash;</dd></div>
+    </dl>
+  </section>
+
+  <section class="card glass" id="plannerCard" hidden aria-label="Best hours to go out">
+    <h2>Best hours to go out today</h2>
+    <p class="sub" id="plannerSub"></p>
+    <div class="windows" id="windows"></div>
+  </section>
+
+  <section class="card glass" id="timelineCard" hidden aria-label="Hour by hour today">
+    <h2>Hour by hour, rest of today</h2>
+    <p class="sub">US AQI for each hour, from the live forecast. Taller bar, worse air.</p>
+    <div class="timeline" id="timeline"></div>
+    <p class="legend" aria-label="Colour key">
+      <span><i class="sw good"></i>Good</span>
+      <span><i class="sw moderate"></i>Moderate</span>
+      <span><i class="sw usg"></i>Unhealthy for sensitive groups</span>
+      <span><i class="sw unhealthy"></i>Unhealthy</span>
+      <span><i class="sw very"></i>Very unhealthy</span>
+      <span><i class="sw haz"></i>Hazardous</span>
+    </p>
+  </section>
+
+  <section class="card glass" id="tomorrowCard" hidden aria-label="Tomorrow morning">
+    <h2>Tomorrow morning</h2>
+    <p id="tomorrowLine"></p>
+  </section>
+
+  <section class="card how" aria-label="How this works">
+    <h2>How this works</h2>
+    <ol class="how-list">
+      <li><strong>Real data, live.</strong> Every number on this page is fetched at the moment you open it from the Open-Meteo Air Quality API, which serves the Copernicus CAMS forecast. There is no stored or made-up AQI anywhere in this app.</li>
+      <li><strong>Simple rules, not a black box.</strong> The planner looks at the forecast hour by hour and picks the cleanest two-hour windows left today. The advice comes from a short rule table, written by hand:</li>
+    </ol>
+    <table class="rules">
+      <caption>When outdoor exercise is fine, by profile</caption>
+      <thead><tr><th>Profile</th><th>Go out if AQI is</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>General</td><td>150 or under</td><td>Healthy adults cope up to Unhealthy</td></tr>
+        <tr><td>Child</td><td>100 or under</td><td>Children breathe faster and are still growing</td></tr>
+        <tr><td>Elderly</td><td>100 or under</td><td>Older lungs and hearts feel it sooner</td></tr>
+        <tr><td>Asthma / heart</td><td>50 or under</td><td>Only Good air is safe to push in</td></tr>
+      </tbody>
+    </table>
+    <p class="how-note"><strong>Built during EvoHacks 2, 21&ndash;22 Nov 2026.</strong> The whole app was written in the event window. AI helped draft code and wording, but a person wrote the rules, picked the data source, tested every screen, and can explain each line. No pre-existing code was reused.</p>
+    <p class="how-note">Forecast data comes from a weather model. For medical decisions, follow official CPCB readings and your doctor.</p>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  <p>Air-quality data: <a href="https://open-meteo.com/en/docs/air-quality-api">Open-Meteo Air Quality API</a> · Copernicus CAMS. Place search: Open-Meteo Geocoding API. Built for EvoHacks 2.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

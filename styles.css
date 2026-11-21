@@ -1,0 +1,197 @@
+/* Saans — Swiss Minimalism layout + glass cards. AQI colour bands carry the identity. */
+:root {
+  --ink: #14201a;
+  --muted: #5b6b62;
+  --paper: #f4f6f2;
+  --card: rgba(255, 255, 255, 0.72);
+  --line: rgba(20, 32, 26, 0.14);
+  --accent: #1d6a4a;
+  --good: #2e9e5b;
+  --moderate: #d9b400;
+  --usg: #e8821e;
+  --unhealthy: #d43d2a;
+  --very: #8e3a9e;
+  --haz: #6e1423;
+  --radius: 18px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgba(46, 158, 91, 0.22), transparent 60%),
+    radial-gradient(700px 420px at -10% 20%, rgba(29, 106, 74, 0.16), transparent 60%),
+    var(--paper);
+  line-height: 1.55;
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 18px; }
+.top { padding: 42px 0 10px; }
+.eyebrow { margin: 0 0 4px; font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+h1 { margin: 0; font-size: 3rem; line-height: 1.05; letter-spacing: -0.02em; }
+.tagline { margin: 8px 0 0; font-size: 1.15rem; color: var(--muted); max-width: 34rem; }
+h2 { margin: 0 0 6px; font-size: 1.25rem; letter-spacing: -0.01em; }
+.sub { margin: 0 0 12px; color: var(--muted); }
+.hint { margin: 12px 0 0; font-size: 0.85rem; color: var(--muted); }
+main { padding: 18px 0 8px; display: grid; gap: 16px; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.glass {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 28px rgba(20, 32, 26, 0.08);
+}
+
+/* City picker */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 14px; }
+.chip, .profile-btn {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  min-height: 44px;
+}
+.chip:hover, .profile-btn:hover { border-color: var(--accent); }
+.chip.active, .profile-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.search-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.search-row label { width: 100%; font-weight: 600; }
+.search-row input {
+  flex: 1 1 200px;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 1rem;
+  background: #fff;
+  color: var(--ink);
+}
+.search-row button {
+  min-height: 46px;
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  background: var(--ink);
+  color: #fff;
+  cursor: pointer;
+}
+.search-results { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+.search-results button {
+  width: 100%;
+  text-align: left;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--ink);
+}
+.search-results button:hover { border-color: var(--accent); }
+.search-results .empty { color: var(--muted); padding: 6px 2px; }
+
+/* Profiles */
+.profiles { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Status (loading / error) */
+#status .loading, #status .error {
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  background: var(--card);
+}
+#status .error { border-color: var(--unhealthy); }
+#status .error button {
+  margin-top: 8px;
+  border: 0; border-radius: 10px; padding: 10px 18px;
+  background: var(--unhealthy); color: #fff; font-weight: 700; cursor: pointer;
+  min-height: 44px;
+}
+
+/* Now card */
+.now-card { border-top: 6px solid var(--good); }
+.now-top { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+.now-top h2 { font-size: 1.6rem; margin: 0; }
+.now-time { margin: 2px 0 0; color: var(--muted); font-size: 0.9rem; }
+.aqi-block { text-align: right; flex-shrink: 0; }
+.aqi-num { display: block; font-size: 3.4rem; line-height: 1; font-weight: 800; letter-spacing: -0.03em; }
+.aqi-label { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.band { margin: 12px 0 4px; font-size: 1.3rem; font-weight: 800; }
+.verdict { margin: 0; font-size: 1.05rem; }
+.pollutants {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line);
+}
+.pollutants div { min-width: 0; }
+.pollutants dt { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 700; }
+.pollutants dd { margin: 2px 0 0; font-size: 1.05rem; font-weight: 700; overflow-wrap: anywhere; }
+
+/* Planner windows */
+.windows { display: grid; gap: 10px; }
+.window {
+  display: flex; gap: 14px; align-items: center;
+  border: 1px solid var(--line); border-radius: 14px;
+  padding: 14px 16px; background: rgba(255, 255, 255, 0.65);
+}
+.window .w-time { font-size: 1.25rem; font-weight: 800; white-space: nowrap; }
+.window .w-aqi {
+  flex-shrink: 0; text-align: center; min-width: 64px;
+  border-radius: 12px; padding: 8px 6px; color: #fff; font-weight: 800;
+}
+.window .w-aqi small { display: block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.9; }
+.window .w-body { min-width: 0; }
+.window .w-activity { margin: 0; font-weight: 800; }
+.window .w-advice { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+.no-window { margin: 0; padding: 12px 4px; }
+
+/* Timeline */
+.timeline {
+  display: flex; align-items: flex-end; gap: 4px;
+  height: 170px; padding-top: 8px;
+  border-bottom: 2px solid var(--line);
+}
+.bar { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
+.bar i { display: block; width: 100%; max-width: 26px; border-radius: 5px 5px 0 0; }
+.bar span { font-size: 0.68rem; color: var(--muted); margin-top: 5px; white-space: nowrap; }
+.bar b { font-size: 0.68rem; margin-bottom: 3px; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 12px 0 0; font-size: 0.85rem; color: var(--muted); }
+.legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+.good { background: var(--good); } .moderate { background: var(--moderate); }
+.usg { background: var(--usg); } .unhealthy { background: var(--unhealthy); }
+.very { background: var(--very); } .haz { background: var(--haz); }
+
+/* How it works */
+.how-list { margin: 0 0 10px; padding-left: 20px; display: grid; gap: 8px; }
+.rules { width: 100%; border-collapse: collapse; margin: 6px 0 12px; font-size: 0.95rem; }
+.rules caption { text-align: left; font-weight: 700; padding: 6px 0; }
+.rules th, .rules td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.rules th { background: rgba(20, 32, 26, 0.06); }
+.how-note { color: var(--muted); font-size: 0.95rem; }
+
+.foot { padding: 22px 18px 40px; color: var(--muted); font-size: 0.9rem; }
+.foot a { color: var(--accent); }
+
+@media (max-width: 480px) {
+  h1 { font-size: 2.4rem; }
+  .aqi-num { font-size: 2.8rem; }
+  .pollutants { grid-template-columns: 1fr 1fr; }
+  .window { flex-wrap: wrap; }
+  .bar span { font-size: 0.6rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
