@@ -1,10 +1,10 @@
 /* Saans — Swiss Minimalism layout + glass cards. AQI colour bands carry the identity. */
 :root {
   --ink: #14201a;
-  --muted: #5b6b62;
+  --muted: #4c5d53;
   --paper: #f4f6f2;
-  --card: rgba(255, 255, 255, 0.72);
-  --line: rgba(20, 32, 26, 0.14);
+  --card: rgba(255, 255, 255, 0.88);
+  --line: rgba(20, 32, 26, 0.2);
   --accent: #1d6a4a;
   --good: #2e9e5b;
   --moderate: #d9b400;
@@ -13,6 +13,7 @@
   --very: #8e3a9e;
   --haz: #6e1423;
   --radius: 18px;
+  --shadow: 0 12px 32px rgba(20, 32, 26, 0.1), 0 2px 8px rgba(20, 32, 26, 0.06);
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -26,41 +27,50 @@ body {
     var(--paper);
   line-height: 1.55;
 }
-.wrap { max-width: 760px; margin: 0 auto; padding: 0 18px; }
-.top { padding: 42px 0 10px; }
-.eyebrow { margin: 0 0 4px; font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+.top { padding: 48px 0 12px; }
+.eyebrow { margin: 0 0 6px; font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
 h1 { margin: 0; font-size: 3rem; line-height: 1.05; letter-spacing: -0.02em; }
-.tagline { margin: 8px 0 0; font-size: 1.15rem; color: var(--muted); max-width: 34rem; }
-h2 { margin: 0 0 6px; font-size: 1.25rem; letter-spacing: -0.01em; }
-.sub { margin: 0 0 12px; color: var(--muted); }
-.hint { margin: 12px 0 0; font-size: 0.85rem; color: var(--muted); }
-main { padding: 18px 0 8px; display: grid; gap: 16px; }
+.tagline { margin: 10px 0 0; font-size: 1.15rem; color: var(--muted); max-width: 34rem; }
+h2 { margin: 0 0 8px; font-size: 1.3rem; letter-spacing: -0.01em; line-height: 1.25; }
+.sub { margin: 0 0 14px; color: var(--muted); }
+.hint { margin: 14px 0 0; font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+main { padding: 20px 0 8px; display: grid; gap: 20px; }
 
 .card {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 20px;
+  padding: 24px;
+  min-width: 0;
 }
 .glass {
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 8px 28px rgba(20, 32, 26, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
 }
 
 /* City picker */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 14px; }
 .chip, .profile-btn {
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   color: var(--ink);
   border-radius: 999px;
-  padding: 10px 16px;
+  padding: 10px 17px;
   font-size: 0.95rem;
   cursor: pointer;
   min-height: 44px;
+  box-shadow: 0 1px 3px rgba(20, 32, 26, 0.06);
+  transition: transform 0.15s ease, opacity 0.15s ease;
 }
-.chip:hover, .profile-btn:hover { border-color: var(--accent); }
+.chip:hover, .profile-btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+.chip:focus-visible, .profile-btn:focus-visible,
+.search-row input:focus-visible, .search-row button:focus-visible,
+.search-results button:focus-visible, #status .error button:focus-visible {
+  outline: 3px solid rgba(29, 106, 74, 0.45);
+  outline-offset: 2px;
+}
 .chip.active, .profile-btn.active {
   background: var(--accent);
   border-color: var(--accent);
@@ -70,6 +80,7 @@ main { padding: 18px 0 8px; display: grid; gap: 16px; }
 .search-row label { width: 100%; font-weight: 600; }
 .search-row input {
   flex: 1 1 200px;
+  min-width: 0;
   min-height: 46px;
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -78,17 +89,22 @@ main { padding: 18px 0 8px; display: grid; gap: 16px; }
   background: #fff;
   color: var(--ink);
 }
+.search-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(29, 106, 74, 0.16); outline: none; }
 .search-row button {
+  flex: 0 0 auto;
   min-height: 46px;
   border: 0;
   border-radius: 12px;
-  padding: 10px 20px;
+  padding: 10px 22px;
   font-size: 1rem;
   font-weight: 700;
   background: var(--ink);
   color: #fff;
   cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
 }
+.search-row button:hover { transform: translateY(-1px); }
+.search-row button:active { transform: translateY(0); opacity: 0.92; }
 .search-results { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
 .search-results button {
   width: 100%;
@@ -133,8 +149,8 @@ main { padding: 18px 0 8px; display: grid; gap: 16px; }
 .band { margin: 12px 0 4px; font-size: 1.3rem; font-weight: 800; }
 .verdict { margin: 0; font-size: 1.05rem; }
 .pollutants {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
-  margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line);
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  margin: 18px 0 0; padding-top: 16px; border-top: 1px solid var(--line);
 }
 .pollutants div { min-width: 0; }
 .pollutants dt { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 700; }
@@ -143,9 +159,10 @@ main { padding: 18px 0 8px; display: grid; gap: 16px; }
 /* Planner windows */
 .windows { display: grid; gap: 10px; }
 .window {
-  display: flex; gap: 14px; align-items: center;
+  display: flex; gap: 16px; align-items: center;
   border: 1px solid var(--line); border-radius: 14px;
-  padding: 14px 16px; background: rgba(255, 255, 255, 0.65);
+  padding: 16px 18px; background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 3px 12px rgba(20, 32, 26, 0.05);
 }
 .window .w-time { font-size: 1.25rem; font-weight: 800; white-space: nowrap; }
 .window .w-aqi {
@@ -168,7 +185,7 @@ main { padding: 18px 0 8px; display: grid; gap: 16px; }
 .bar i { display: block; width: 100%; max-width: 26px; border-radius: 5px 5px 0 0; }
 .bar span { font-size: 0.68rem; color: var(--muted); margin-top: 5px; white-space: nowrap; }
 .bar b { font-size: 0.68rem; margin-bottom: 3px; }
-.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 12px 0 0; font-size: 0.85rem; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 14px 0 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
 .legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
 .good { background: var(--good); } .moderate { background: var(--moderate); }
 .usg { background: var(--usg); } .unhealthy { background: var(--unhealthy); }
@@ -187,10 +204,14 @@ main { padding: 18px 0 8px; display: grid; gap: 16px; }
 
 @media (max-width: 480px) {
   h1 { font-size: 2.4rem; }
+  .top { padding-top: 36px; }
+  .card { padding: 20px; }
   .aqi-num { font-size: 2.8rem; }
   .pollutants { grid-template-columns: 1fr 1fr; }
-  .window { flex-wrap: wrap; }
+  .window { flex-wrap: wrap; padding: 14px 16px; }
   .bar span { font-size: 0.6rem; }
+  .rules { font-size: 0.88rem; }
+  .rules th, .rules td { padding: 6px 8px; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
