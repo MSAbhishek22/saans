@@ -86,6 +86,30 @@
 </script>
 
 
+<style>
+.fleet-pso{max-width:1100px;margin:18px auto;padding:0 14px;display:grid;gap:14px}
+.fleet-pso nav{font:600 13px/1.4 system-ui,sans-serif;letter-spacing:.04em}
+.fleet-pso nav a{color:inherit}
+.fleet-pso section{background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(20,50,60,.07)}
+.fleet-pso h2{font-size:20px;margin:0 0 6px}
+.fleet-pso p{margin:0;line-height:1.55}
+@media(min-width:760px){.fleet-pso{grid-template-columns:1fr}}
+</style>
+<div class="fleet-pso" aria-label="Problem, solution and outcome">
+<nav aria-label="On this page"><a href="#problem">Problem</a> &middot; <a href="#solution">Solution</a> &middot; <a href="#outcome">Outcome</a></nav>
+<section id="problem">
+<h2>The problem</h2>
+<p>An AQI number on its own does not tell you when to go out. The air changes hour by hour, and the same air hurts a child, an elderly parent, or a person with asthma sooner than it hurts a healthy adult.</p>
+</section>
+<section id="solution">
+<h2>The solution</h2>
+<p>Saans fetches live air-quality data for your city and reads the forecast hour by hour. It picks the cleanest two-hour windows coming up, and the advice gets stricter for the people the air hurts most. The rules are short, written by hand, and shown in full under &ldquo;How this works&rdquo; below.</p>
+</section>
+<section id="outcome">
+<h2>The outcome</h2>
+<p>You see the air right now, the best hours to step out today, the rest of today hour by hour, and a first look at tomorrow morning &mdash; for a run, for kids&rsquo; play, for an elderly parent&rsquo;s walk, or for the commute. If no window is safe, Saans says so and shows the least-bad one.</p>
+</section>
+</div>
 <main class="wrap">
   <section class="card glass" aria-label="Choose a city">
     <h2>Where are you?</h2>
